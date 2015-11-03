@@ -216,6 +216,12 @@
                 android:hint="miliseconds"
                 android:id="@+id/tickEditText" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sensor Delay"
+                android:id="@+id/sensorDelayButton" />
+
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

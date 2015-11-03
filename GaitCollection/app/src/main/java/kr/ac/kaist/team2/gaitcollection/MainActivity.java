@@ -1,7 +1,9 @@
 package kr.ac.kaist.team2.gaitcollection;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -60,6 +62,8 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
 
     Button keyboardButton = null;
 
+    Button sensorDelayButton = null;
+
 
     Button sendEmailButton = null;
     Button deleteSelectedButton = null;
@@ -89,6 +93,10 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     String gaitDataPath = "/gaitData/";
     String gaitDataFullPath = null;
 
+    int listItemSize = 150;
+    int sensorDelay = SensorManager.SENSOR_DELAY_FASTEST;
+    int tempDelay = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +117,8 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
         deleteSelectedButton = (Button) findViewById(R.id.deleteSelectedButton);
 
         keyboardButton = (Button) findViewById(R.id.keyboardButton);
+
+        sensorDelayButton = (Button) findViewById(R.id.sensorDelayButton);
 
         toEmailEditTextBox = (EditText) findViewById(R.id.toEmailText);
 
@@ -138,12 +148,9 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     @Override
     public void onResume() {
         super.onResume();
-        // 가속도 센서 리스너 오브젝트를 등록
-        sm.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        // 자이로 센서 리스너 오브젝트를 등록
-        sm.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        // 중력 센서 리스너 오브젝트를 등록
-        sm.registerListener(this, graviSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        setSensorListener();
+        setSensorDelayButtonText();
 
         recordButton.setOnClickListener(this);
         fileListView.setOnTouchListener(this);
@@ -152,6 +159,40 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
         sendEmailButton.setOnClickListener(this);
         deleteSelectedButton.setOnClickListener(this);
         keyboardButton.setOnClickListener(this);
+        sensorDelayButton.setOnClickListener(this);
+
+    }
+
+    private void setSensorDelayButtonText(){
+        switch(sensorDelay){
+            case SensorManager.SENSOR_DELAY_UI:
+                sensorDelayButton.setText("SENSOR_DELAY_UI");
+                break;
+            case SensorManager.SENSOR_DELAY_NORMAL:
+                sensorDelayButton.setText("SENSOR_DELAY_NORMAL");
+                break;
+            case SensorManager.SENSOR_DELAY_GAME:
+                sensorDelayButton.setText("SENSOR_DELAY_GAME");
+                break;
+
+            case SensorManager.SENSOR_DELAY_FASTEST:
+            default:
+                sensorDelayButton.setText("SENSOR_DELAY_FASTEST");
+                break;
+        }
+    }
+
+    private void setSensorListener() {
+        sm.unregisterListener(this, accSensor);
+        sm.unregisterListener(this, gyroSensor);
+        sm.unregisterListener(this, graviSensor);
+
+        // 가속도 센서 리스너 오브젝트를 등록
+        sm.registerListener(this, accSensor, sensorDelay);
+        // 자이로 센서 리스너 오브젝트를 등록
+        sm.registerListener(this, gyroSensor, sensorDelay);
+        // 중력 센서 리스너 오브젝트를 등록
+        sm.registerListener(this, graviSensor, sensorDelay);
     }
 
     @Override
@@ -305,6 +346,48 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
                 InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(toEmailEditTextBox.getWindowToken(),0);
                 break;
+            case R.id.sensorDelayButton:
+                final String items[] = {"SENSOR_DELAY_FASTEST", "SENSOR_DELAY_GAME", "SENSOR_DELAY_NORMAL", "SENSOR_DELAY_UI"};
+                AlertDialog.Builder ab = new AlertDialog.Builder(this);
+
+                ab.setTitle("Choose Sensor Delay");
+                ab.setSingleChoiceItems(items, 0,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // 각 리스트를 선택했을때
+                                switch(whichButton)
+                                {
+                                    case 0:
+                                        tempDelay = SensorManager.SENSOR_DELAY_FASTEST;
+                                        break;
+                                    case 1:
+                                        tempDelay = SensorManager.SENSOR_DELAY_GAME;
+                                        break;
+                                    case 2:
+                                        tempDelay = SensorManager.SENSOR_DELAY_NORMAL;
+                                        break;
+                                    case 3:
+                                        tempDelay = SensorManager.SENSOR_DELAY_UI;
+                                        break;
+                                }
+                            }
+                        }).setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                sensorDelay = tempDelay;
+                                setSensorDelayButtonText();
+                                setSensorListener();
+
+                            }
+                        }).setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Cancel 버튼 클릭시
+                            }
+                        });
+                ab.show();
+                break;
         }
 
     }
@@ -345,7 +428,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
 
         //listview 높이조절 대충정함...
         ViewGroup.LayoutParams params = fileListView.getLayoutParams();
-        params.height = 120 * (fileArrayAdapter.getCount() - 1);
+        params.height = listItemSize * (fileArrayAdapter.getCount() - 1);
         fileListView.setLayoutParams(params);
         fileListView.requestLayout();
     }
