@@ -2,7 +2,6 @@ package kr.ac.kaist.team2.gaitcollection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,14 +40,15 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     TextView tvAccelX = null;
     TextView tvAccelY = null;
     TextView tvAccelZ = null;
+    TextView tvAccelMag = null;
     // 자이로 센서값을 출력하기 위한 TextView
-    TextView tvGyroX = null;
-    TextView tvGyroY = null;
-    TextView tvGyroZ = null;
+    TextView tvMagX = null;
+    TextView tvMagY = null;
+    TextView tvMagZ = null;
     // 중력 센서값을 출력하기 위한 TextView
-    TextView tvGraviX = null;
-    TextView tvGraviY = null;
-    TextView tvGraviZ = null;
+    TextView tvAzimuth = null;
+    TextView tvPitch = null;
+    TextView tvRoll = null;
 
     ListView fileListView = null;
     ArrayAdapter fileArrayAdapter = null;
@@ -76,19 +75,21 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     // 가속도 센서
     Sensor accSensor = null;
     // 자이로센서 센서
-    Sensor gyroSensor = null;
-    // 중력 센서
-    Sensor graviSensor = null;
+    Sensor magSensor = null;
+    // 방향 센서
+    Sensor oriSensor = null;
+
 
     File recordingFile = null;
     FileOutputStream fos = null;
     String recordingFileName = null;
     PrintWriter writer = null;
 
+    String fileContent = null;
 
     Thread recordThread = null;
 
-    int tick = 500;
+    int tick = 10;
     String rootPath = null;
     String gaitDataPath = "/gaitData/";
     String gaitDataFullPath = null;
@@ -105,12 +106,14 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
         tvAccelX = (TextView) findViewById(R.id.tvAccelX);
         tvAccelY = (TextView) findViewById(R.id.tvAccelY);
         tvAccelZ = (TextView) findViewById(R.id.tvAccelZ);
-        tvGyroX = (TextView) findViewById(R.id.tvGyroX);
-        tvGyroY = (TextView) findViewById(R.id.tvGyroY);
-        tvGyroZ = (TextView) findViewById(R.id.tvGyroZ);
-        tvGraviX = (TextView) findViewById(R.id.tvGravX);
-        tvGraviY = (TextView) findViewById(R.id.tvGravY);
-        tvGraviZ = (TextView) findViewById(R.id.tvGravZ);
+        tvAccelMag = (TextView) findViewById(R.id.tvAccelMag);
+
+        tvMagX = (TextView) findViewById(R.id.tvMagX);
+        tvMagY = (TextView) findViewById(R.id.tvMagY);
+        tvMagZ = (TextView) findViewById(R.id.tvMagZ);
+        tvAzimuth = (TextView) findViewById(R.id.tvAzimuth);
+        tvPitch = (TextView) findViewById(R.id.tvPitch);
+        tvRoll = (TextView) findViewById(R.id.tvRoll);
 
         recordButton = (ToggleButton) findViewById(R.id.recordButton);
         sendEmailButton = (Button) findViewById(R.id.sendEmailButton);
@@ -139,10 +142,10 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         // 가속도 센서
         accSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        // 자이로센서 센서
-        gyroSensor = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        // 중력 센서
-        graviSensor = sm.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        // 마그네틱필드센서 센서
+        magSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        // 방향 센서
+        oriSensor = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION);
     }
 
     @Override
@@ -160,7 +163,6 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
         deleteSelectedButton.setOnClickListener(this);
         keyboardButton.setOnClickListener(this);
         sensorDelayButton.setOnClickListener(this);
-
     }
 
     private void setSensorDelayButtonText(){
@@ -184,15 +186,15 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
 
     private void setSensorListener() {
         sm.unregisterListener(this, accSensor);
-        sm.unregisterListener(this, gyroSensor);
-        sm.unregisterListener(this, graviSensor);
+        sm.unregisterListener(this, magSensor);
+        sm.unregisterListener(this, oriSensor);
 
         // 가속도 센서 리스너 오브젝트를 등록
         sm.registerListener(this, accSensor, sensorDelay);
-        // 자이로 센서 리스너 오브젝트를 등록
-        sm.registerListener(this, gyroSensor, sensorDelay);
-        // 중력 센서 리스너 오브젝트를 등록
-        sm.registerListener(this, graviSensor, sensorDelay);
+        // 마그네틱필드 센서 리스너 오브젝트를 등록
+        sm.registerListener(this, magSensor, sensorDelay);
+        // 방향 센서 리스너 오브젝트를 등록
+        sm.registerListener(this, oriSensor, sensorDelay);
     }
 
     @Override
@@ -212,19 +214,25 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
-                tvAccelX.setText(String.valueOf(event.values[0]));
-                tvAccelY.setText(String.valueOf(event.values[1]));
-                tvAccelZ.setText(String.valueOf(event.values[2]));
+                double accel_x = event.values[0];
+                double accel_y = event.values[1];
+                double accel_z = event.values[2];
+                tvAccelX.setText(String.valueOf(accel_x));
+                tvAccelY.setText(String.valueOf(accel_y));
+                tvAccelZ.setText(String.valueOf(accel_z));
+
+                double accel_mag = Math.sqrt(accel_x + accel_y + accel_z) - 9.8066;
+                tvAccelMag.setText(String.valueOf(accel_mag));
                 break;
-            case Sensor.TYPE_GYROSCOPE:
-                tvGyroX.setText(String.valueOf(event.values[0] * 1000));
-                tvGyroY.setText(String.valueOf(event.values[1] * 1000));
-                tvGyroZ.setText(String.valueOf(event.values[2] * 1000));
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                tvMagX.setText(String.valueOf(event.values[0]));
+                tvMagY.setText(String.valueOf(event.values[1]));
+                tvMagZ.setText(String.valueOf(event.values[2]));
                 break;
-            case Sensor.TYPE_GRAVITY:
-                tvGraviX.setText(String.valueOf(event.values[0]));
-                tvGraviY.setText(String.valueOf(event.values[1]));
-                tvGraviZ.setText(String.valueOf(event.values[2]));
+            case Sensor.TYPE_ORIENTATION:
+                tvAzimuth.setText(String.valueOf(event.values[0]));
+                tvPitch.setText(String.valueOf(event.values[1]));
+                tvRoll.setText(String.valueOf(event.values[2]));
 
         }
     }
@@ -244,9 +252,12 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
                         //파일 오픈
                         fos = new FileOutputStream(new File(gaitDataFullPath, recordingFileName));
                         //openFileOutput(new File(gaitDataFullPath, recordingFileName));
-                        String topLine = new String("Accelerometer x y z\tGyroscope x y z\tGravity x y z");
+                        String topLine = new String("timestamp\taccel_x\taccel_y\taccel_z\taccel_mag\tmag_x\tmag_y\tmag_z\tazimuth\tpitch\troll\n");
                         writer= new PrintWriter(fos);
-                        writer.println(topLine);
+                        fileContent = topLine;
+
+                        //writer.println(topLine);
+
                     } catch(Exception e){
                         e.printStackTrace();
                     }
@@ -257,19 +268,22 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
                         public void run(){
                             while(isRecording == true){
                                 try{
+
+                                    String timestamp = String.valueOf(System.currentTimeMillis());
                                     String tvAccelXVal = tvAccelX.getText().toString();
                                     String tvAccelYVal = tvAccelY.getText().toString();
                                     String tvAccelZVal = tvAccelZ.getText().toString();
-                                    String tvGyroXVal = tvGyroX.getText().toString();
-                                    String tvGyroYVal = tvGyroY.getText().toString();
-                                    String tvGyroZVal = tvGyroZ.getText().toString();
-                                    String tvGraviXVal = tvGraviX.getText().toString();
-                                    String tvGraviYVal = tvGraviY.getText().toString();
-                                    String tvGraviZVal = tvGraviZ.getText().toString();
+                                    String tvAccelMagVal = tvAccelMag.getText().toString();
+                                    String tvMagXVal = tvMagX.getText().toString();
+                                    String tvMagYVal = tvMagY.getText().toString();
+                                    String tvMagZVal = tvMagZ.getText().toString();
+                                    String tvAzimuthVal = tvAzimuth.getText().toString();
+                                    String tvPitchVal = tvPitch.getText().toString();
+                                    String tvRollVal = tvRoll.getText().toString();
 
 
-                                    String line = tvAccelXVal + " " + tvAccelYVal + " " + tvAccelZVal + " " + tvGyroXVal + " "+ tvGyroYVal + " "+ tvGyroZVal + " " + tvGraviXVal + " "+ tvGraviYVal + " "+ tvGraviZVal;
-                                    writer.println(line);
+                                    String line = timestamp + "\t" + tvAccelXVal + "\t" + tvAccelYVal + "\t" + tvAccelZVal + "\t" + tvMagXVal + "\t"+ tvMagYVal + "\t"+ tvMagZVal + "\t" + tvAzimuthVal + "\t"+ tvPitchVal + "\t"+ tvRollVal + "\n";
+                                    fileContent += line;
 
                                     Thread.sleep(tick);
                                 }   catch(Exception e){
@@ -278,7 +292,9 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
 
                             }
                             try {
+                                writer.println(fileContent);
                                 writer.close();
+                                fileContent = null;
                             } catch(Exception e){
                                 e.printStackTrace();
                             }
