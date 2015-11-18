@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta charset="UTF-8" />
+<title>Gait Dataset</title>
+<style type="text/css">
+sup { font-size: 0.7em; }
+#content { width: 700px; padding: 0 10px 0 10px; }
+</style>
+</head>
+<body>
+<div id="content">
+<h1>Gait Dataset</h1>
+<p>This data was collected at McGill University in June and July, 2011 by <a href="http://www.cs.mcgill.ca/~jfrank8/">Jordan Frank</a>. The data was collected using the <a href="http://jwf.github.com/Humansense-Android-App/">HumanSense open-source Android data collection platform</a>.</p>
+<p>This package contains the raw sensor data collected from a mobile phone in the pocket of 20 individuals, performing two separate 15 minute walks on two different days. The subject information, including the gender, height, weight, and descriptions of clothing and shoes warn on each day are found in <i>SubjectInformation.xls</i>. The columns titled <i>sensor</i> give the id of the mobile phone that the subject used. There were four <a href="http://www.google.com/phone/detail/nexus-one">HTC Nexus One</a> phones used in the experiment with ids 1, 2, 3, and 4.</p>
+<p>The CSV data files contain the data in tab-separated format. The first row contains the column headers. The <i>timestamps</i> are in milliseconds. The three columns, <i>accel_x</i>, <i>accel_y</i>, and <i>accel_z</i>, give the values collected by the triaxial accelerometer, and the units are <i>m/s<sup>2</sup></i>. The <i>accel_mag</i> values are computed as <i>sqrt(accel_x<sup>2</sup> + accel_y<sup>2</sup> + accel_z<sup>2</sup>)-9.8066</i>. The <i>temperature</i> data was not collected, since the Nexus One does not contain a temperature sensor, although the column has not been removed. The <i>mag_x</i>, <i>mag_y</i>, and <i>mag_z</i> columns contain the values from the magnetometer sensor, and the <i>azimuth</i>, <i>pitch</i>, and <i>roll</i> are the values provided by the <a href="http://www.android.com/">Google Android OS</a>, which calculates an approximation of the orientation of the phone based on the accelerometer and magnetometer readings <a href="#footnote1">[1]</a>.</p>
+<p>The files have the following naming conventions: <i>w0XXdayY-raw.csv</i>, which contains the data for the subject identified by <i>XX</i> (ranging from 01 to 20) on the day identified by <i>Y</i> (either 1 or 2).</p>
+<p>This work is supported by <a href="http://www.nserc-crsng.gc.ca">NSERC</a> and the <a href="http://www.pascal-network.org/?q=node/19">PASCAL 2 Harvest Programme</a>.</p>
+<p><a name="footnote1">[1]</a> See <a href="http://developer.android.com/reference/android/hardware/SensorManager.html#getOrientation(float[], float[])">http://developer.android.com/reference/android/hardware/SensorManager.html#getOrientation(float[], float[])</a> for more information.</p>
+</div>
+<div class="clear"></div>
+</body>
+</html>

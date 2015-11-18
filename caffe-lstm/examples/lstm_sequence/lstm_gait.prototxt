@@ -1,0 +1,80 @@
+name: "LSTM"
+layer {
+  name: "gait"
+  type: "HDF5Data"
+  top: "data"
+  top: "clip"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  hdf5_data_param {
+    source: "/home/jmlee/workspace/caffe-lstm/examples/lstm_sequence/gait-dataset/gait_train.txt"
+    batch_size: 200
+  }
+}
+layer {
+  name: "gait"
+  type: "HDF5Data"
+  top: "data"
+  top: "clip"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  hdf5_data_param {
+    source: "/home/jmlee/workspace/caffe-lstm/examples/lstm_sequence/gait-dataset/gait_test.txt"
+    batch_size: 200
+  }
+}
+layer {
+  name: "Silence"
+  type: "Silence"
+  bottom: "label"
+  include: { phase: TEST }
+}
+layer {
+  name: "lstm1"
+  type: "Lstm"
+  bottom: "data"
+  bottom: "clip"
+  top: "lstm1"
+
+  lstm_param {
+    num_output: 100
+    clipping_threshold: 0.1
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip1"
+
+  inner_product_param {
+    num_output: 20
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip1"
+  bottom: "label"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+

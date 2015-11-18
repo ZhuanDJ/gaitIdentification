@@ -1,0 +1,1 @@
+/home/jmlee/workspace/caffe-lstm/examples/lstm_sequence/gait-dataset/gait_test.h5

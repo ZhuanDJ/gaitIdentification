@@ -1,0 +1,7 @@
+*.log
+gait-dataset/gait_data.csv
+gait-dataset/gait_data.h5
+gait-dataset/gait_train.csv
+gait-dataset/gait_train.h5
+gait-dataset/gait_test.csv
+gait-dataset/gait_test.h5
