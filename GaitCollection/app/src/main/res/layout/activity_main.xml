@@ -15,6 +15,10 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:paddingRight="5px">
+
+
+
+
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
@@ -224,6 +228,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recording delay: "
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/tvTimeDiff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
 
