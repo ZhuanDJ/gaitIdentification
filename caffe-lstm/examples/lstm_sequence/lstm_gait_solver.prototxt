@@ -13,4 +13,4 @@ test_interval: 50000
 weight_decay: 0.004
 
 snapshot: 10000
-snapshot_prefix: "snapshot/gait"
+snapshot_prefix: "snapshot/gait2"

@@ -53,9 +53,28 @@ layer {
   }
 }
 layer {
+  name: "lstm2"
+  type: "Lstm"
+  bottom: "lstm1"
+  bottom: "clip"
+  top: "lstm2"
+
+  lstm_param {
+    num_output: 100
+    clipping_threshold: 0.1
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
   name: "ip1"
   type: "InnerProduct"
-  bottom: "lstm1"
+  bottom: "lstm2"
   top: "ip1"
 
   inner_product_param {

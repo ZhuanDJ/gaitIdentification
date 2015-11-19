@@ -1,5 +1,5 @@
-a = caffe.Net('lstm_gait_matlab.prototxt', 'snapshot/gait_iter_2655.caffemodel', 'test');
-X = csvread('data/gait_data.csv');
+a = caffe.Net('lstm_gait_matlab.prototxt', 'snapshot/gait_iter_40000.caffemodel', 'test');
+X = csvread('gait-dataset/gait_test.csv');
 
 n = size(X, 1);
 m = n / 200;
@@ -31,3 +31,4 @@ for i=1:m
     end
 end
 
+fprintf('accuracy : %f\n', positive_count / (positive_count + negative_count));
