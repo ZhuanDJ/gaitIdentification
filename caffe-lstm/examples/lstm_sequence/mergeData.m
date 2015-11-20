@@ -10,7 +10,7 @@ for person=1:20
             data200 = X((endIdx-200):endIdx-1, :);
             data200(:, 5) = 1;
             data200(1, 5) = 0;
-            result = [result ; data200];
+            result = [result; data200];
         end
     end
 end

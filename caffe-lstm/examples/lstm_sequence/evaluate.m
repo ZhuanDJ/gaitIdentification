@@ -1,4 +1,4 @@
-a = caffe.Net('lstm_gait_matlab.prototxt', 'snapshot/gait_iter_40000.caffemodel', 'test');
+a = caffe.Net('lstm_gait_matlab.prototxt', 'snapshot/gait_iter_20000.caffemodel', 'test');
 X = csvread('gait-dataset/gait_test.csv');
 
 n = size(X, 1);

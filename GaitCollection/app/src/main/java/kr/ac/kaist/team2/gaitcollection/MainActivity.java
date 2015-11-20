@@ -11,6 +11,9 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.Parcelable;
 import android.util.SparseBooleanArray;
 import android.view.MotionEvent;
@@ -49,6 +52,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     TextView tvAzimuth = null;
     TextView tvPitch = null;
     TextView tvRoll = null;
+    TextView tvTimeDiff = null;
 
     ListView fileListView = null;
     ArrayAdapter fileArrayAdapter = null;
@@ -80,28 +84,39 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     Sensor oriSensor = null;
 
 
-    File recordingFile = null;
     FileOutputStream fos = null;
     String recordingFileName = null;
     PrintWriter writer = null;
 
-    String fileContent = null;
 
     Thread recordThread = null;
 
-    int tick = 10;
+    int tick = 40;
     String rootPath = null;
     String gaitDataPath = "/gaitData/";
     String gaitDataFullPath = null;
+    String saveFileFormat = "csv";
+    String saveFileFormat2 = "txt";
 
-    int listItemSize = 150;
+    ArrayList<String> dataList = null;
+    int defaultDataListSize = 50000;
+
+    int listItemSize = 200;
+    int listViewMaxItemNumberToShow = 3;
     int sensorDelay = SensorManager.SENSOR_DELAY_FASTEST;
     int tempDelay = -1;
+
+    long currentTimeMillis = 0;
+    long previousTimeMillis = 0;
+
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tvTimeDiff = (TextView) findViewById(R.id.tvTimeDiff);
 
         tvAccelX = (TextView) findViewById(R.id.tvAccelX);
         tvAccelY = (TextView) findViewById(R.id.tvAccelY);
@@ -137,6 +152,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
 
         wrappingScrollView = (ScrollView) findViewById(R.id.wrappingScrollView);
 
+        handler = new Handler(Looper.getMainLooper());
 
         // SensorManager 인스턴스를 가져옴
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -243,68 +259,23 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
             case R.id.recordButton:     //기록 토글버튼
                 isRecording = (isRecording == true ? false : true);
                 if (isRecording == true) {
-                    long nowMills = System.currentTimeMillis();
-                    Date date = new Date(nowMills);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                    recordingFileName = "gaitdata_" + simpleDateFormat.format(date).toString() + ".txt";
 
-                    try{
-                        //파일 오픈
-                        fos = new FileOutputStream(new File(gaitDataFullPath, recordingFileName));
-                        //openFileOutput(new File(gaitDataFullPath, recordingFileName));
-                        String topLine = new String("timestamp\taccel_x\taccel_y\taccel_z\taccel_mag\tmag_x\tmag_y\tmag_z\tazimuth\tpitch\troll\n");
-                        writer= new PrintWriter(fos);
-                        fileContent = topLine;
-
-                        //writer.println(topLine);
-
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
                     tick = Integer.parseInt(tickEditText.getText().toString());
+                    dataList = new ArrayList<String>(defaultDataListSize);
+
 
                     //레코딩을 위한 thread 생성
                     recordThread = new Thread(new Runnable(){
                         public void run(){
-                            while(isRecording == true){
-                                try{
-
-                                    String timestamp = String.valueOf(System.currentTimeMillis());
-                                    String tvAccelXVal = tvAccelX.getText().toString();
-                                    String tvAccelYVal = tvAccelY.getText().toString();
-                                    String tvAccelZVal = tvAccelZ.getText().toString();
-                                    String tvAccelMagVal = tvAccelMag.getText().toString();
-                                    String tvMagXVal = tvMagX.getText().toString();
-                                    String tvMagYVal = tvMagY.getText().toString();
-                                    String tvMagZVal = tvMagZ.getText().toString();
-                                    String tvAzimuthVal = tvAzimuth.getText().toString();
-                                    String tvPitchVal = tvPitch.getText().toString();
-                                    String tvRollVal = tvRoll.getText().toString();
-
-
-                                    String line = timestamp + "\t" + tvAccelXVal + "\t" + tvAccelYVal + "\t" + tvAccelZVal + "\t" + tvMagXVal + "\t"+ tvMagYVal + "\t"+ tvMagZVal + "\t" + tvAzimuthVal + "\t"+ tvPitchVal + "\t"+ tvRollVal + "\n";
-                                    fileContent += line;
-
-                                    Thread.sleep(tick);
-                                }   catch(Exception e){
-                                    e.printStackTrace();
-                                }
-
-                            }
-                            try {
-                                writer.println(fileContent);
-                                writer.close();
-                                fileContent = null;
-                            } catch(Exception e){
-                                e.printStackTrace();
-                            }
+                            taskOnRecordingThread();
                         }
                     });
 
                     recordThread.start();
                 }
                 else {
-                    setFileListViewAdapter();
+                    setFileListViewAdapter();       //파일리스트 갱신
+                    tvTimeDiff.setText("-");
                 }
 
                 break;
@@ -409,13 +380,92 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     }
 
 
+    private void taskOnRecordingThread()
+    {
+        while(isRecording == true){
+            try{
+                currentTimeMillis = System.currentTimeMillis();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println(currentTimeMillis + ", " + previousTimeMillis);
+                        tvTimeDiff.setText(String.valueOf(currentTimeMillis - previousTimeMillis));
+                    }
+                });
+
+
+                String timestamp = String.valueOf(currentTimeMillis);
+                String tvAccelXVal = tvAccelX.getText().toString();
+                String tvAccelYVal = tvAccelY.getText().toString();
+                String tvAccelZVal = tvAccelZ.getText().toString();
+                String tvAccelMagVal = tvAccelMag.getText().toString();
+                String tvMagXVal = tvMagX.getText().toString();
+                String tvMagYVal = tvMagY.getText().toString();
+                String tvMagZVal = tvMagZ.getText().toString();
+                String tvAzimuthVal = tvAzimuth.getText().toString();
+                String tvPitchVal = tvPitch.getText().toString();
+                String tvRollVal = tvRoll.getText().toString();
+
+
+                String line = timestamp;        //add timestamp
+                line += "\t" + tvAccelXVal + "\t" + tvAccelYVal + "\t" + tvAccelZVal + "\t" + tvAccelMagVal; // add accel data
+                line += "\t0\t"; //add temperature data
+                line += tvMagXVal + "\t"+ tvMagYVal + "\t"+ tvMagZVal; // add magnetic field data
+                line += "\t" + tvAzimuthVal + "\t"+ tvPitchVal + "\t"+ tvRollVal + "\n"; // add orientation data
+                dataList.add(line);
+
+
+
+
+                Thread.sleep(tick);
+                previousTimeMillis = currentTimeMillis;
+            }   catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
+
+        // write all data to file
+        long nowMills = System.currentTimeMillis();
+        Date date = new Date(nowMills);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        recordingFileName = "gaitdata_" + simpleDateFormat.format(date).toString() + "." + saveFileFormat;
+
+        try{
+            //파일 오픈
+            fos = new FileOutputStream(new File(gaitDataFullPath, recordingFileName));
+            //openFileOutput(new File(gaitDataFullPath, recordingFileName));
+            String topLine = new String("timestamp\taccel_x\taccel_y\taccel_z\taccel_mag\ttemperature\tmag_x\tmag_y\tmag_z\tazimuth\tpitch\troll\n");
+            writer= new PrintWriter(fos);
+
+            String fileContent = topLine;
+            for (String line : dataList){
+                fileContent += line;
+            }
+
+            writer.print(fileContent);
+            writer.close();
+            dataList.clear();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    setFileListViewAdapter();       //파일리스트 갱신
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private String[] getSavedFileTitleList() {
         try {
             FilenameFilter fileFilter = new FilenameFilter()
             {
                 public boolean accept(File dir, String name)
                 {
-                    return name.endsWith("txt");
+                    return name.endsWith(saveFileFormat) || name.endsWith(saveFileFormat2);
                 } //end accept
             };
             File file = new File(gaitDataFullPath);
@@ -439,12 +489,14 @@ public class MainActivity extends Activity implements SensorEventListener, OnCli
     }
 
     private void setFileListViewAdapter(){
-        fileArrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_multiple_choice, getSavedFileTitleList());
+        String[] fileList = getSavedFileTitleList();
+
+        fileArrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_multiple_choice, fileList);
         fileListView.setAdapter(fileArrayAdapter);
 
         //listview 높이조절 대충정함...
         ViewGroup.LayoutParams params = fileListView.getLayoutParams();
-        params.height = listItemSize * (fileArrayAdapter.getCount() - 1);
+        params.height = listItemSize * listViewMaxItemNumberToShow;
         fileListView.setLayoutParams(params);
         fileListView.requestLayout();
     }

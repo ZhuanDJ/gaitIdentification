@@ -6,10 +6,10 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b197f98-e4ca-4501-a5fe-e558b74f6ca2" name="Default" comment="">
+    <list default="true" id="1b197f98-e4ca-4501-a5fe-e558b74f6ca2" name="Default" comment="1. modify the ui for showing timestemp difference&#10;2. modify data recording module to handle delay for concatenating very large size of string">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" />
@@ -17,9 +17,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_23_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_23_1_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/evaluate.m" afterPath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/evaluate.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/gait-dataset/gait_data.txt" afterPath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/gait-dataset/gait_data.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/gait-dataset/gait_test.txt" afterPath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/gait-dataset/gait_test.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/gait-dataset/gait_train.txt" afterPath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/gait-dataset/gait_train.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/lstm_gait.prototxt" afterPath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/lstm_gait.prototxt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/mergeData.m" afterPath="$PROJECT_DIR$/../caffe-lstm/examples/lstm_sequence/mergeData.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="GaitCollection.iws" />
@@ -44,21 +47,77 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47215497">
-              <caret line="147" column="63" selection-start-line="147" selection-start-column="63" selection-end-line="147" selection-end-column="63" />
+            <state vertical-scroll-proportion="0.738342">
+              <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
               <folding>
-                <element signature="e#8994#11028#0" expanded="true" />
-                <element signature="e#11027#11028#0" expanded="true" />
-                <element signature="e#12656#12668#0" expanded="true" />
-                <element signature="e#14017#15078#0" expanded="true" />
-                <element signature="e#15077#15078#0" expanded="true" />
-                <element signature="e#15128#15486#0" expanded="true" />
-                <element signature="e#15485#15486#0" expanded="true" />
-                <element signature="e#15540#15775#0" expanded="true" />
-                <element signature="e#15774#15775#0" expanded="true" />
-                <element signature="e#15948#16155#0" expanded="true" />
-                <element signature="e#16154#16155#0" expanded="true" />
+                <element signature="e#8541#8700#0" expanded="true" />
+                <element signature="e#8699#8700#0" expanded="true" />
+                <element signature="e#11751#12812#0" expanded="true" />
+                <element signature="e#12811#12812#0" expanded="true" />
+                <element signature="e#12862#13220#0" expanded="true" />
+                <element signature="e#13219#13220#0" expanded="true" />
+                <element signature="e#13274#13509#0" expanded="true" />
+                <element signature="e#13508#13509#0" expanded="true" />
+                <element signature="e#13774#14091#0" expanded="true" />
+                <element signature="e#14090#14091#0" expanded="true" />
+                <element signature="e#16492#16665#0" expanded="true" />
+                <element signature="e#16664#16665#0" expanded="true" />
+                <element signature="e#16853#17103#0" expanded="true" />
+                <element signature="e#17102#17103#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TextView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/widget/TextView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="8811" column="46" selection-start-line="8811" selection-start-column="46" selection-end-line="8811" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CompoundButton.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/widget/CompoundButton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="124" column="0" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="View.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/view/View.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19829" column="0" selection-start-line="19829" selection-start-column="0" selection-end-line="19829" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Handler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Handler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+              <folding>
+                <element signature="e#29660#29661#0" expanded="true" />
+                <element signature="e#29698#29699#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Looper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Looper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="138" column="13" selection-start-line="138" selection-start-column="13" selection-end-line="138" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -66,8 +125,8 @@
       <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.620689">
-              <caret line="232" column="34" selection-start-line="232" selection-start-column="34" selection-end-line="232" selection-end-column="34" />
+            <state vertical-scroll-proportion="-0.75">
+              <caret line="216" column="12" selection-start-line="216" selection-start-column="12" selection-end-line="216" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -1551,7 +1610,10 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1572,16 +1634,13 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="http.proxy" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="LGV50020d1ac86" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="LGF460Kd65d6f9f" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5X_API_22" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/release_key.jks" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
@@ -1787,6 +1846,13 @@
       <option name="number" value="Default" />
       <updated>1446550588634</updated>
     </task>
+    <task id="LOCAL-00001" summary="1. Type of sensor is modified&#10;2. Default recording delay modified&#10;3. Recording form is modified (it follows the public dataset format except for temperature)&#10; 4. There could be exist some screen size issue (it is not tested on various types of android phone)&#10;">
+      <created>1447751251547</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1447751251547</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1794,33 +1860,33 @@
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.503231" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40182647" sideWeight="0.8546042" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32875606" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.49353796" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39726028" sideWeight="0.4806139" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1834,25 +1900,29 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1. Type of sensor is modified&#10;2. Default recording delay modified&#10;3. Recording form is modified (it follows the public dataset format except for temperature)&#10; 4. There could be exist some screen size issue (it is not tested on various types of android phone)&#10;" />
+    <MESSAGE value="1. modify the ui for showing timestemp difference&#10;2. modify data recording module to handle delay for concatenating very large size of string" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. modify the ui for showing timestemp difference&#10;2. modify data recording module to handle delay for concatenating very large size of string" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java</url>
-          <line>373</line>
+          <line>276</line>
           <properties />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java</url>
-          <line>395</line>
-          <properties />
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="4" />
+      <option name="time" value="13" />
     </breakpoint-manager>
-    <watches-manager />
+    <watches-manager>
+      <configuration name="app">
+        <watch expression="fileList" />
+        <watch expression="fileArrayAdapter.getCount()" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java">
@@ -1860,17 +1930,122 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#8994#11028#0" expanded="true" />
-            <element signature="e#11027#11028#0" expanded="true" />
-            <element signature="e#12656#12668#0" expanded="true" />
-            <element signature="e#14017#15078#0" expanded="true" />
-            <element signature="e#15077#15078#0" expanded="true" />
-            <element signature="e#15128#15486#0" expanded="true" />
-            <element signature="e#15485#15486#0" expanded="true" />
-            <element signature="e#15540#15775#0" expanded="true" />
-            <element signature="e#15774#15775#0" expanded="true" />
-            <element signature="e#15948#16155#0" expanded="true" />
-            <element signature="e#16154#16155#0" expanded="true" />
+            <element signature="e#8541#8700#0" expanded="true" />
+            <element signature="e#8699#8700#0" expanded="true" />
+            <element signature="e#11751#12812#0" expanded="true" />
+            <element signature="e#12811#12812#0" expanded="true" />
+            <element signature="e#12862#13220#0" expanded="true" />
+            <element signature="e#13219#13220#0" expanded="true" />
+            <element signature="e#13274#13509#0" expanded="true" />
+            <element signature="e#13508#13509#0" expanded="true" />
+            <element signature="e#13774#14091#0" expanded="true" />
+            <element signature="e#14090#14091#0" expanded="true" />
+            <element signature="e#16492#16665#0" expanded="true" />
+            <element signature="e#16664#16665#0" expanded="true" />
+            <element signature="e#16853#17103#0" expanded="true" />
+            <element signature="e#17102#17103#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="232" column="34" selection-start-line="232" selection-start-column="34" selection-end-line="232" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#8541#8700#0" expanded="true" />
+            <element signature="e#8699#8700#0" expanded="true" />
+            <element signature="e#11751#12812#0" expanded="true" />
+            <element signature="e#12811#12812#0" expanded="true" />
+            <element signature="e#12862#13220#0" expanded="true" />
+            <element signature="e#13219#13220#0" expanded="true" />
+            <element signature="e#13274#13509#0" expanded="true" />
+            <element signature="e#13508#13509#0" expanded="true" />
+            <element signature="e#13774#14091#0" expanded="true" />
+            <element signature="e#14090#14091#0" expanded="true" />
+            <element signature="e#16492#16665#0" expanded="true" />
+            <element signature="e#16664#16665#0" expanded="true" />
+            <element signature="e#16853#17103#0" expanded="true" />
+            <element signature="e#17102#17103#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="232" column="34" selection-start-line="232" selection-start-column="34" selection-end-line="232" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#8541#8700#0" expanded="true" />
+            <element signature="e#8699#8700#0" expanded="true" />
+            <element signature="e#11751#12812#0" expanded="true" />
+            <element signature="e#12811#12812#0" expanded="true" />
+            <element signature="e#12862#13220#0" expanded="true" />
+            <element signature="e#13219#13220#0" expanded="true" />
+            <element signature="e#13274#13509#0" expanded="true" />
+            <element signature="e#13508#13509#0" expanded="true" />
+            <element signature="e#13774#14091#0" expanded="true" />
+            <element signature="e#14090#14091#0" expanded="true" />
+            <element signature="e#16492#16665#0" expanded="true" />
+            <element signature="e#16664#16665#0" expanded="true" />
+            <element signature="e#16853#17103#0" expanded="true" />
+            <element signature="e#17102#17103#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="232" column="34" selection-start-line="232" selection-start-column="34" selection-end-line="232" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#8541#8700#0" expanded="true" />
+            <element signature="e#8699#8700#0" expanded="true" />
+            <element signature="e#11751#12812#0" expanded="true" />
+            <element signature="e#12811#12812#0" expanded="true" />
+            <element signature="e#12862#13220#0" expanded="true" />
+            <element signature="e#13219#13220#0" expanded="true" />
+            <element signature="e#13274#13509#0" expanded="true" />
+            <element signature="e#13508#13509#0" expanded="true" />
+            <element signature="e#13774#14091#0" expanded="true" />
+            <element signature="e#14090#14091#0" expanded="true" />
+            <element signature="e#16492#16665#0" expanded="true" />
+            <element signature="e#16664#16665#0" expanded="true" />
+            <element signature="e#16853#17103#0" expanded="true" />
+            <element signature="e#17102#17103#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1894,10 +2069,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/java/io/FilenameFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7094431">
+          <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.620689">
-          <caret line="232" column="34" selection-start-line="232" selection-start-column="34" selection-end-line="232" selection-end-column="34" />
+        <state vertical-scroll-proportion="-0.75">
+          <caret line="216" column="12" selection-start-line="216" selection-start-column="12" selection-end-line="216" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -1905,22 +2088,76 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/widget/TextView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8811" column="46" selection-start-line="8811" selection-start-column="46" selection-end-line="8811" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/widget/CompoundButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="124" column="0" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19829" column="0" selection-start-line="19829" selection-start-column="0" selection-end-line="19829" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Handler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+          <folding>
+            <element signature="e#29660#29661#0" expanded="true" />
+            <element signature="e#29698#29699#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/os/Looper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="138" column="13" selection-start-line="138" selection-start-column="13" selection-end-line="138" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33171913">
+          <caret line="143" column="11" selection-start-line="143" selection-start-column="11" selection-end-line="143" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kaist/team2/gaitcollection/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47215497">
-          <caret line="147" column="63" selection-start-line="147" selection-start-column="63" selection-end-line="147" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.738342">
+          <caret line="54" column="31" selection-start-line="54" selection-start-column="31" selection-end-line="54" selection-end-column="31" />
           <folding>
-            <element signature="e#8994#11028#0" expanded="true" />
-            <element signature="e#11027#11028#0" expanded="true" />
-            <element signature="e#12656#12668#0" expanded="true" />
-            <element signature="e#14017#15078#0" expanded="true" />
-            <element signature="e#15077#15078#0" expanded="true" />
-            <element signature="e#15128#15486#0" expanded="true" />
-            <element signature="e#15485#15486#0" expanded="true" />
-            <element signature="e#15540#15775#0" expanded="true" />
-            <element signature="e#15774#15775#0" expanded="true" />
-            <element signature="e#15948#16155#0" expanded="true" />
-            <element signature="e#16154#16155#0" expanded="true" />
+            <element signature="e#8541#8700#0" expanded="true" />
+            <element signature="e#8699#8700#0" expanded="true" />
+            <element signature="e#11751#12812#0" expanded="true" />
+            <element signature="e#12811#12812#0" expanded="true" />
+            <element signature="e#12862#13220#0" expanded="true" />
+            <element signature="e#13219#13220#0" expanded="true" />
+            <element signature="e#13274#13509#0" expanded="true" />
+            <element signature="e#13508#13509#0" expanded="true" />
+            <element signature="e#13774#14091#0" expanded="true" />
+            <element signature="e#14090#14091#0" expanded="true" />
+            <element signature="e#16492#16665#0" expanded="true" />
+            <element signature="e#16664#16665#0" expanded="true" />
+            <element signature="e#16853#17103#0" expanded="true" />
+            <element signature="e#17102#17103#0" expanded="true" />
           </folding>
         </state>
       </provider>
