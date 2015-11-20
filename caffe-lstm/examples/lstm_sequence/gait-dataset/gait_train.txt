@@ -1,1 +1,1 @@
-/Users/nbowon/GitHub/gaitIdentification/caffe-lstm/examples/lstm_sequence/gait-dataset/gait_train.h5
+/home/jmlee/workspace/gaitIdentification/caffe-lstm/examples/lstm_sequence/gait-dataset/gait_train.h5

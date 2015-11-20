@@ -1,0 +1,720 @@
+
+name: "LSTM"
+layer {
+  name: "gait"
+  type: "HDF5Data"
+  top: "data"
+  top: "clip"
+  top: "label1"
+  top: "label2"
+  top: "label3"
+  top: "label4"
+  top: "label5"
+  top: "label6"
+  top: "label7"
+  top: "label8"
+  top: "label9"
+  top: "label10"
+  top: "label11"
+  top: "label12"
+  top: "label13"
+  top: "label14"
+  top: "label15"
+  top: "label16"
+  top: "label17"
+  top: "label18"
+  top: "label19"
+  top: "label20"
+  top: "label21"
+  top: "label22"
+  top: "label23"
+  
+  include {
+    phase: TRAIN
+  }
+  hdf5_data_param {
+    source: "/home/jmlee/workspace/gaitIdentification/caffe-lstm/examples/lstm_sequence/gait-dataset/gait_train2.txt"
+    batch_size: 200
+  }
+}
+layer {
+  name: "gait"
+  type: "HDF5Data"
+  top: "data"
+  top: "clip"
+  top: "label1"
+  top: "label2"
+  top: "label3"
+  top: "label4"
+  top: "label5"
+  top: "label6"
+  top: "label7"
+  top: "label8"
+  top: "label9"
+  top: "label10"
+  top: "label11"
+  top: "label12"
+  top: "label13"
+  top: "label14"
+  top: "label15"
+  top: "label16"
+  top: "label17"
+  top: "label18"
+  top: "label19"
+  top: "label20"
+  top: "label21"
+  top: "label22"
+  top: "label23"
+  
+
+  include {
+    phase: TEST
+  }
+  hdf5_data_param {
+    source: "/home/jmlee/workspace/gaitIdentification/caffe-lstm/examples/lstm_sequence/gait-dataset/gait_test.txt"
+    batch_size: 200
+  }
+}
+layer {
+  name: "lstm1"
+  type: "Lstm"
+  bottom: "data"
+  bottom: "clip"
+  top: "lstm1"
+
+  lstm_param {
+    num_output: 100
+    clipping_threshold: 0.1
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip1"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip1"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip2"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip2"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip3"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip3"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip4"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip4"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip5"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip5"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip6"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip6"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip7"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip7"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip8"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip8"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip9"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip9"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip10"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip10"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip11"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip11"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip12"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip12"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip13"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip13"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip14"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip14"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip15"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip15"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip16"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip16"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip17"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip17"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip18"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip18"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip19"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip19"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip20"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip20"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip21"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip21"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip22"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip22"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+name: "ip23"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip23"
+
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.1
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip1"
+  bottom: "label1"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip2"
+  bottom: "label2"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip3"
+  bottom: "label3"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip4"
+  bottom: "label4"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip5"
+  bottom: "label5"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip6"
+  bottom: "label6"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip7"
+  bottom: "label7"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip8"
+  bottom: "label8"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip9"
+  bottom: "label9"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip10"
+  bottom: "label10"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip11"
+  bottom: "label11"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip12"
+  bottom: "label12"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip13"
+  bottom: "label13"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip14"
+  bottom: "label14"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip15"
+  bottom: "label15"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip16"
+  bottom: "label16"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip17"
+  bottom: "label17"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip18"
+  bottom: "label18"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip19"
+  bottom: "label19"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip20"
+  bottom: "label20"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip21"
+  bottom: "label21"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip22"
+  bottom: "label22"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip23"
+  bottom: "label23"
+  top: "loss"
+  include: { phase: TRAIN }
+}
+
+

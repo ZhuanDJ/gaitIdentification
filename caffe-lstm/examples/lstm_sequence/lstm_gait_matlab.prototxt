@@ -3,14 +3,7 @@ input: "data"
 input_shape { dim: 200 dim: 3 }
 input: "clip"
 input_shape { dim: 200 dim: 1 }
-input: "label"
-input_shape { dim: 200 dim: 1 }
-layer {
-  name: "Silence"
-  type: "Silence"
-  bottom: "label"
-  include: { phase: TEST }
-}
+
 layer {
   name: "lstm1"
   type: "Lstm"
@@ -37,7 +30,7 @@ layer {
   top: "ip1"
 
   inner_product_param {
-    num_output: 20
+    num_output: 18
     weight_filler {
       type: "gaussian"
       std: 0.1

@@ -8,9 +8,9 @@ solver_mode: CPU
 average_loss: 200
 debug_info: false
 
-test_iter: 1000
-test_interval: 50000
-weight_decay: 0.004
+#test_iter: 1000
+#test_interval: 50000
+#weight_decay: 0.004
 
 snapshot: 10000
-snapshot_prefix: "snapshot/gait2"
+snapshot_prefix: "snapshot/gait"

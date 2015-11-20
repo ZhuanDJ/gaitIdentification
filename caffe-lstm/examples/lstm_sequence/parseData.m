@@ -1,4 +1,4 @@
-function [ data, processed_data ] = parseData( person, day )
+function [ data, final ] = parseData( person, day )
 %LOADDATA Summary of this function goes here
 %   parseDate(person, day)
 
@@ -27,7 +27,7 @@ for i=1:n
     data(i).clip = 1;
 end
 
-windowSize = 10;
+windowSize = 50;
 accels = [];
 for i=1:n
     if i <= windowSize
@@ -39,7 +39,7 @@ for i=1:n
     data(i).maxAccel = max(accels, [], 1);
 end
 
-threshold = 5;
+threshold = 3;
 % Choose apropriate axis
 best_axis = -1;
 clip_count = 0;
@@ -58,6 +58,9 @@ for axis=1:3
         clip_count = length(find([data.clip] == 0));
         best_axis = axis;
     end
+    for idx = find([data.clip] == 0)
+        data(idx).clip = 1;
+    end
 end
 for i=2:n
     % downward point
@@ -68,7 +71,8 @@ for i=2:n
 end
 
 % Generate final result
-processed_data = [];
+processed_idx = 1;
+processed_data = struct('timestamp', {}, 'accel', {}, 'linear_accel', {}, 'accel_mag', {}, 'orientation', {}, 'clip', {}, 'label', {}, 'averageAccel', {}, 'maxAccel', {});
 clipIdx = find([data.clip]' == 0);
 i = 0;
 while i < length(clipIdx) - 1;
@@ -99,7 +103,8 @@ while i < length(clipIdx) - 1;
             else
                 elem.clip = 1;
             end
-            processed_data = [processed_data ; elem];
+            processed_data(processed_idx, :) = elem;
+            processed_idx = processed_idx + 1;
         end
     end
 
@@ -113,7 +118,8 @@ final_timestamp = [processed_data.timestamp]';
 final_accel = reshape([processed_data.accel]', [ 3, length(processed_data)])';
 final_clip = [processed_data.clip]';
 label = ones(length(final_clip), 1) * person;
-dlmwrite(write_filepath, [final_timestamp final_accel final_clip label], 'delimiter', ',', 'precision', 14);
+final = [final_timestamp final_accel final_clip label];
+dlmwrite(write_filepath, final, 'delimiter', ',', 'precision', 14);
 
 end
 
