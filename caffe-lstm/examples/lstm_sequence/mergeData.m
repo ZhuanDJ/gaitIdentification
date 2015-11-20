@@ -39,8 +39,3 @@ dlmwrite('gait-dataset/gait_test.csv', result((trainingSize+1):end, :), 'delimit
 
 % generate H5
 generateH5('gait_train');
-generateH5('gait_test');
-
-% generateH52('gait_data');
-% generateH5('gait_train');
-% generateH5('gait_test');
