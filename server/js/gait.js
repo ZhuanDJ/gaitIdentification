@@ -76,12 +76,34 @@ $(function(){
       accel: [data[1], data[2], data[3]]
     };
     sensorWindow.push(obj);
-    if (sensorWindow.length >= 200) {
+    if (sensorWindow.length > 200) {
       sensorWindow.shift();
     }
 
     draw();
   });
-
   draw();
+  socket.on('authResult', function(data) {
+    if (data[0] == 1) {
+      found(1);
+    } else if (data[1] == 1) {
+      found(2);
+    } else if (data[2] == 1) {
+      found(3);
+    }
+  });
 });
+
+
+setInterval(function() {
+  var size = 100;
+  if (prog_ing) {
+    if (sensorWindow.length >= size) {
+      var data = [];
+      for (var i = sensorWindow.length - size ; i < sensorWindow.length; i++) {
+        data.push(sensorWindow[i]);
+      }
+      socket.emit('auth', data);
+    }
+  }
+}, 500);

@@ -1,28 +1,24 @@
 var prog_interval = 50;
-var prog_endtime = 5000;
+var prog_endtime = 30000000;
 var prog_ing = false;
 var imgwho_ani_ing = false;
 var prog_time = 0;
-var img_num = 3;
-var img_title = Array("Unknown", "Jang", "Tom", "Ko");
-
-
-var socket = io();
-
+var img_num = 4;
+var img_title = Array("Unknown", "Jongmin", "Bowon", "Daehyun");
 
 function imgwho_ani() {
 	if(imgwho_ani_ing == true) return;
 	imgwho_ani_ing = true;
-	$("#imgwho").animate({
-                opacity: 0.2,
-        }, 1000, function () {
-        	$("#imgwho").animate({
-                opacity: 0.9,
-        	}, 1000, function () {
-			imgwho_ani_ing = false;
-			imgwho_ani();
-		});
+  $("#imgwho").animate({
+    opacity: 0.2,
+  }, 1000, function () {
+    $("#imgwho").animate({
+      opacity: 0.9,
+    }, 1000, function () {
+      imgwho_ani_ing = false;
+      imgwho_ani();
     });
+  });
 }
 
 function prog_f() {
@@ -48,8 +44,9 @@ function prog_f() {
 }
 
 function hide_imgs() {
-	for(var i = 0; i <= img_num; i++)
-		$("#img"+i).hide();
+  for(var i = 0; i <= img_num; i++) {
+    $("#img"+i).hide();
+  }
 }
 
 function show_result(idx) {
@@ -79,7 +76,7 @@ var fileFormat = ".csv";
 function button1_click() {
 	var btn1 = document.getElementById('button1');
 
-	if(btn1.value=="processing...") return;
+	if (btn1.value=="processing...") return;
 	btn1.value="processing...";
 
 	prog_ing = true;
@@ -87,18 +84,6 @@ function button1_click() {
 	hide_imgs();
 	imgwho_ani();
 	setTimeout("prog_f()", prog_interval);
-
-	//saving sensor data to file
-	socket.on('sensor', function(msg) {
-    	sensorData += msg;
-    	sensorDataCount += 1;
-    	if (sensorDataCount >= 200){
-    		var blob = new Blob([sensorData], {type: "text/plain;charset=utf-8"});
-    		var fullfilename = fileName + fileNameCount + fileFormat;
-  			saveAs(blob, fullfilename);
-  			fileNameCount += 1;
-    	}
-  	});
 }
 
 function button2_click() {

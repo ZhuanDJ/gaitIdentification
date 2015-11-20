@@ -48,8 +48,10 @@ io.sockets.on('connection', function (socket) {
   socket.emit('hello', "hello world!");
 
   socket.on('sensor', function(msg) {
-    console.log('sensor : ' + msg);
-    webSocket.emit('sensor', msg);
+    //console.log('sensor : ' + msg);
+    if (webSocket) {
+      webSocket.emit('sensor', msg);
+    }
   });
   socket.on('bye', function(msg) {
     console.log('bye...');
@@ -58,6 +60,19 @@ io.sockets.on('connection', function (socket) {
     console.log('Web is connected');
     webSocket = socket;
   });
+  socket.on('auth', function(data) {
+    var filepath = 'sensordata/' + Math.floor(Date.now()) + '.csv';
+    // write...
+    var csvstr = "";  
+    for (var i = 0 ; i < data.length ; i++){
+      csvstr += data[i].timestamp + ',' + data[i].accel[0] + ', ' + data[i].accel[1] + ', ' + data[i].accel[2] + '\n';
+    }
+    fs.writeFile(filepath, csvstr, function(err) {
+      if (err) throw err;
+      // send
+      matlabSocket.write(filepath);
+    });
+  });
 });
 
 
@@ -65,29 +80,22 @@ io.sockets.on('connection', function (socket) {
 
 var tcpserver=require('net').createServer();
 var tcpport=3001;
+var matlabSocket;
 tcpserver.on('listening',function(){
   console.log('TCP/IP Server is listening on port', tcpport);
 });
-tcpserver.on('connection',function(socket2){
+tcpserver.on('connection',function(socket) {
+  matlabSocket = socket;
+
   console.log('TCP/IP Server has a new connection');
   
-  socket2.write('sensorDataFileName.csv');
-
-  socket2.on('data', function(data){
-      console.log('TCP/IP Server Received:', data.toString());
-      msg = data;
-      
-      //ealuation result
-      result = msg;
+  matlabSocket.on('data', function(data){
+    webSocket.emit('authResult', data.toString().split(","));
+    console.log('TCP/IP Server Received:', data.toString());
   });
-  socket2.on('end',function(data){
-    //connection 이 종료되었을 경우 진입
+  matlabSocket.on('end',function(data){
     console.log('TCP/IP Server is now closing');
   });
-
-
-  //socket.end();
-  //tcpserver.close();
 });
 tcpserver.on('close',function(){
   console.log('TCP/IP Server is now closed');
@@ -96,4 +104,5 @@ tcpserver.on('error',function(){
   console.log('Error occured:',err.message);
 });
 tcpserver.listen(tcpport);
+
 
