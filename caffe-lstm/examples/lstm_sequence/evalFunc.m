@@ -1,5 +1,7 @@
 function [ result ] = evalFunc( caffeModel, sensorData )
 
+
+
 clip = ones(size(sensorData,1),1); clip(1) = 0;
 caffeModel.blobs('data').set_data(sensorData(:, 2:4)');
 caffeModel.blobs('clip').set_data(clip');
@@ -14,10 +16,13 @@ for i=1:size(predict_result, 2)
 end
 fprintf('\n%f\n', avr(2));
 
-if avr < 0.99
-    result = 0;
-else
-    result = double(class == 2);
-end
+result = class - 1;
+% fprintf('%f\n', result);
+% threshold = 0.95;
+% if avr < threshold
+%     result = 0;
+% else
+%     result = double(class == 2);
+% end
 
 end

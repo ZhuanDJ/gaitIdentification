@@ -1,7 +1,7 @@
-person = 22;
+person = 23;
 
 caffe.reset_all;
-caffenet = caffe.Net('lstm_gait_person_matlab.prototxt', sprintf('snapshot/gait_%d_iter_20000.caffemodel', person), 'test');
+caffenet = caffe.Net('prototxt/lstm_gait_person_matlab.prototxt', sprintf('snapshot/gait_%d_iter_10000.caffemodel', person), 'test');
 X = csvread('gait-dataset/gait_test.csv');
 
 n = size(X, 1);
@@ -9,6 +9,8 @@ m = n / 200;
 
 positive_count = 0;
 negative_count = 0;
+
+fp_data = [];
 
 tp = 0; tn = 0;
 fp = 0; fn = 0;
@@ -42,6 +44,7 @@ for i=1:m
     if class == 2 && true_class == 2
         tp = tp + 1;
     elseif class == 2 && true_class == 1
+        fp_data(size(fp_data,1)+1:size(fp_data,1)+200, :) = x;
         fp = fp + 1;
         fprintf('%d %d\n', mode(class), mode(true_class));
     elseif class == 1 && true_class == 1
@@ -56,7 +59,9 @@ for i=1:m
 end
 fprintf('\n');
 
+fprintf('accuracy : %f\n', (tp + tn) / (tp + fp + tn + fn));
 fprintf('precision : %f\n', tp / (tp + fp));
+fprintf('recall : %f\n', tp / (tp + fn));
 fprintf('true positive : %f\n', tp);
 fprintf('true negative : %f\n', tn);
 fprintf('false positive : %f\n', fp);

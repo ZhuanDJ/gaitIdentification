@@ -96,7 +96,7 @@ $(function(){
 
 
 setInterval(function() {
-  var size = 100;
+  var size = 200;
   if (prog_ing) {
     if (sensorWindow.length >= size) {
       var data = [];

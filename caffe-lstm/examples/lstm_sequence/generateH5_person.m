@@ -1,9 +1,9 @@
 function [ ] = generateH5_person( filename, person )
 %GENERATEH5 Summary of this function goes here
 %   Detailed explanation goes here
-fprintf('generate H5... %s\n', filename);
+fprintf('generate H5... %s_%d\n', filename, person);
 
-X = csvread(sprintf('gait-dataset/%s.csv', filename));
+X = csvread(sprintf('gait-dataset/%s_%d.csv', filename, person));
 
 accel = single(X(:, 2:4))';
 label = single(X(:, 6))';

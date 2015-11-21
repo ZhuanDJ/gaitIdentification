@@ -5,3 +5,9 @@ gait-dataset/gait_train.csv
 gait-dataset/gait_train.h5
 gait-dataset/gait_test.csv
 gait-dataset/gait_test.h5
+
+gait-dataset/gait_train_*.txt
+prototxt/lstm_gait_[0-9].prototxt
+prototxt/lstm_gait_[0-9]_solver.prototxt
+prototxt/lstm_gait_[0-9][0-9].prototxt
+prototxt/lstm_gait_[0-9][0-9]_solver.prototxt
