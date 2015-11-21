@@ -6,13 +6,13 @@ fopen(socket);
 
 caffe.reset_all;
 protoTxt = 'prototxt/lstm_gait_person_demo_matlab.prototxt';
-caffeModel1 = caffe.Net(protoTxt, 'snapshot/gait_21_iter_30000.caffemodel', 'test');
-caffeModel2 = caffe.Net(protoTxt, 'snapshot/gait_22_iter_30000.caffemodel', 'test');
-caffeModel3 = caffe.Net(protoTxt, 'snapshot/gait_23_iter_20000.caffemodel', 'test');
+caffeModel1 = caffe.Net(protoTxt, 'snapshot/gait_21_iter_100000.caffemodel', 'test');
+caffeModel2 = caffe.Net(protoTxt, 'snapshot/gait_22_iter_100000.caffemodel', 'test');
+caffeModel3 = caffe.Net(protoTxt, 'snapshot/gait_23_iter_100000.caffemodel', 'test');
 
 
 MSG_BUFFSIZE = 28;
-windowSize = 50;
+windowSize = 100; % modify lstm_gait_person_demo_matlab.prototxt
 while 1
     msg = fread(socket, MSG_BUFFSIZE);
     msg = char(msg);
@@ -35,7 +35,7 @@ while 1
             result3 = 0;
         end
 %         result2 = 0;
-%         result3 = 0;
+%         result3 = 1;
         
         % send result to node server
         result = strcat(num2str(result1), ',', num2str(result2), ',', num2str(result3) );

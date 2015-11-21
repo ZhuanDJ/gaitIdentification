@@ -1,8 +1,8 @@
 name: "LSTM"
 input: "data"
-input_shape { dim: 50 dim: 3 }
+input_shape { dim: 100 dim: 3 }
 input: "clip"
-input_shape { dim: 50 dim: 1 }
+input_shape { dim: 100 dim: 1 }
 
 layer {
   name: "lstm1"

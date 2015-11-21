@@ -1,7 +1,9 @@
 person = 23;
+iteration = 150000;
+threshold = 0;
 
 caffe.reset_all;
-caffenet = caffe.Net('prototxt/lstm_gait_person_matlab.prototxt', sprintf('snapshot/gait_%d_iter_10000.caffemodel', person), 'test');
+caffenet = caffe.Net('prototxt/lstm_gait_person_matlab.prototxt', sprintf('snapshot/gait_%d_iter_%d.caffemodel', person, iteration), 'test');
 X = csvread('gait-dataset/gait_test.csv');
 
 n = size(X, 1);
@@ -11,6 +13,7 @@ positive_count = 0;
 negative_count = 0;
 
 fp_data = [];
+fn_data = [];
 
 tp = 0; tn = 0;
 fp = 0; fn = 0;
@@ -33,7 +36,14 @@ for i=1:m
     caffenet.forward_prefilled;
 
 %     [~, class] = max(a.blobs('prob').get_data);
-    [~, class] = max(sum(log(caffenet.blobs('prob').get_data), 2));
+    predict_result = caffenet.blobs('prob').get_data;
+    [~, class] = max(sum(log(predict_result), 2));
+    avr2 = exp(sum(log(predict_result(2, :))) / size(predict_result, 2));
+
+    if avr2 < threshold && class == 2
+        fprintf('threshold! %f < %f\n', avr2, threshold);
+        class = 1;
+    end
 
 %     class = class -1;
 %     zeroIdx = find(class == 0);
@@ -50,6 +60,7 @@ for i=1:m
     elseif class == 1 && true_class == 1
         tn = tn + 1;
     elseif class == 1 && true_class == 2
+        fn_data(size(fn_data,1)+1:size(fn_data,1)+200, :) = x;
         fn = fn + 1;
         fprintf('%d %d\n', mode(class), mode(true_class));
     else

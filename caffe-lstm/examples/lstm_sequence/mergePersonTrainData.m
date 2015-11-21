@@ -61,7 +61,7 @@ end
 % merge trash data
 nTrashSequences = 100;
 trashLabel = 100;
-for trash=1:6
+for trash=1:10
     fprintf('merging... trash %d\n', trash);
     trashResultIdx = 1;
     trashResult = [];

@@ -71,11 +71,11 @@ solver_template = %{net: "prototxt/lstm_gait_#{person}.prototxt"
 base_lr: 0.01
 momentum: 0.95
 lr_policy: "step"
-gamma: 0.5 # drop the learning rate
+gamma: 0.7 # drop the learning rate
 stepsize: 10000 # drop the learning rate every 10k iterations
 #weight_decay: 0.004
 display: 1000
-max_iter: 1000000
+max_iter: 200000
 solver_mode: CPU
 average_loss: 200
 debug_info: false

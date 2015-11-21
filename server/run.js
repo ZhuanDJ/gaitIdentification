@@ -43,6 +43,7 @@ function handler (req, res) { //http server handler
 }
 
 var webSocket;
+var appSocket;
 io.sockets.on('connection', function (socket) {
   console.log('user connected!');
   socket.emit('hello', "hello world!");
@@ -52,6 +53,7 @@ io.sockets.on('connection', function (socket) {
     if (webSocket) {
       webSocket.emit('sensor', msg);
     }
+    appSocket = socket;
   });
   socket.on('bye', function(msg) {
     console.log('bye...');
@@ -70,7 +72,9 @@ io.sockets.on('connection', function (socket) {
     fs.writeFile(filepath, csvstr, function(err) {
       if (err) throw err;
       // send
-      matlabSocket.write(filepath);
+      if (matlabSocket) {
+        matlabSocket.write(filepath);
+      }
     });
   });
 });
@@ -90,8 +94,19 @@ tcpserver.on('connection',function(socket) {
   console.log('TCP/IP Server has a new connection');
   
   matlabSocket.on('data', function(data){
-    webSocket.emit('authResult', data.toString().split(","));
+    var result = data.toString().split(",");
+    if (webSocket) {
+      webSocket.emit('authResult', result);
+    }
     console.log('TCP/IP Server Received:', data.toString());
+
+    // send to app
+    if (result.indexOf('1') != -1) {
+      if (appSocket) {
+        console.log('auth success!');
+        appSocket.emit('authSuccess', 'success!');
+      }
+    }
   });
   matlabSocket.on('end',function(data){
     console.log('TCP/IP Server is now closing');
