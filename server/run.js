@@ -104,7 +104,7 @@ tcpserver.on('connection',function(socket) {
     if (result.indexOf('1') != -1) {
       if (appSocket) {
         console.log('auth success!');
-        appSocket.emit('authSuccess', 'success!');
+        appSocket.emit('authSuccess', result.indexOf('1')+1);
       }
     }
   });
@@ -120,4 +120,18 @@ tcpserver.on('error',function(){
 });
 tcpserver.listen(tcpport);
 
-
+/*
+setInterval(function() {
+  var ran = parseInt(Math.random() * 3);
+  if (ran == 0) {
+    result = [1, 0, 0];
+  } else if (ran == 1) {
+    result = [0, 1, 0];
+  } else {
+    result = [0, 0, 1];
+  }
+  if (appSocket) {
+    appSocket.emit('authSuccess', "" + (result.indexOf(1)+1));
+  }
+}, 5000);
+*/
