@@ -6,6 +6,10 @@ var prog_time = 0;
 var img_num = 3;
 var img_title = Array("Unknown", "Jang", "Tom", "Ko");
 
+
+var socket = io();
+
+
 function imgwho_ani() {
 	if(imgwho_ani_ing == true) return;
 	imgwho_ani_ing = true;
@@ -18,7 +22,7 @@ function imgwho_ani() {
 			imgwho_ani_ing = false;
 			imgwho_ani();
 		});
-        });
+    });
 }
 
 function prog_f() {
@@ -66,6 +70,12 @@ function init() {
 	$("#progtxt").text("");
 }
 
+//start button
+var sensorData = "";
+var sensorDataCount = 0;
+var fileNameCount = 0;
+var fileName = "sensorData";
+var fileFormat = ".csv";
 function button1_click() {
 	var btn1 = document.getElementById('button1');
 
@@ -77,6 +87,18 @@ function button1_click() {
 	hide_imgs();
 	imgwho_ani();
 	setTimeout("prog_f()", prog_interval);
+
+	//saving sensor data to file
+	socket.on('sensor', function(msg) {
+    	sensorData += msg;
+    	sensorDataCount += 1;
+    	if (sensorDataCount >= 200){
+    		var blob = new Blob([sensorData], {type: "text/plain;charset=utf-8"});
+    		var fullfilename = fileName + fileNameCount + fileFormat;
+  			saveAs(blob, fullfilename);
+  			fileNameCount += 1;
+    	}
+  	});
 }
 
 function button2_click() {

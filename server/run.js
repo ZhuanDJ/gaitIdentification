@@ -60,3 +60,40 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
+
+//tcp socket to connect to matlab client
+
+var tcpserver=require('net').createServer();
+var tcpport=3001;
+tcpserver.on('listening',function(){
+  console.log('TCP/IP Server is listening on port', tcpport);
+});
+tcpserver.on('connection',function(socket2){
+  console.log('TCP/IP Server has a new connection');
+  
+  socket2.write('sensorDataFileName.csv');
+
+  socket2.on('data', function(data){
+      console.log('TCP/IP Server Received:', data.toString());
+      msg = data;
+      
+      //ealuation result
+      result = msg;
+  });
+  socket2.on('end',function(data){
+    //connection 이 종료되었을 경우 진입
+    console.log('TCP/IP Server is now closing');
+  });
+
+
+  //socket.end();
+  //tcpserver.close();
+});
+tcpserver.on('close',function(){
+  console.log('TCP/IP Server is now closed');
+});
+tcpserver.on('error',function(){
+  console.log('Error occured:',err.message);
+});
+tcpserver.listen(tcpport);
+
