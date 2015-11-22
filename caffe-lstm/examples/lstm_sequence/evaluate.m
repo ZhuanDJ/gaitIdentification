@@ -1,6 +1,6 @@
 caffe.reset_all;
-caffenet = caffe.Net('lstm_gait_matlab.prototxt', 'snapshot/gait_iter_250000.caffemodel', 'test');
-X = csvread('gait-dataset/gait_test.csv');
+caffenet = caffe.Net('prototxt/lstm_gait_matlab.prototxt', 'snapshot/gait_iter_20000.caffemodel', 'test');
+X = csvread('gait-dataset/gait_all_train.csv');
 
 n = size(X, 1);
 m = n / 200;
@@ -21,7 +21,6 @@ for i=1:m
     caffenet.blobs('clip').set_data(clip');
     caffenet.forward_prefilled;
 
-%     [~, class] = max(a.blobs('prob').get_data);
     [~, class] = max(sum(log(caffenet.blobs('prob').get_data), 2));
 
 %     class = class -1;

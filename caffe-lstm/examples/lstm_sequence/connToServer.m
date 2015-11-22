@@ -6,9 +6,9 @@ fopen(socket);
 
 caffe.reset_all;
 protoTxt = 'prototxt/lstm_gait_person_demo_matlab.prototxt';
-caffeModel1 = caffe.Net(protoTxt, 'snapshot/gait_21_iter_100000.caffemodel', 'test');
-caffeModel2 = caffe.Net(protoTxt, 'snapshot/gait_22_iter_100000.caffemodel', 'test');
-caffeModel3 = caffe.Net(protoTxt, 'snapshot/gait_23_iter_100000.caffemodel', 'test');
+caffeModel1 = caffe.Net(protoTxt, 'snapshot/gait_21_iter_200000.caffemodel', 'test');
+caffeModel2 = caffe.Net(protoTxt, 'snapshot/gait_22_iter_200000.caffemodel', 'test');
+caffeModel3 = caffe.Net(protoTxt, 'snapshot/gait_23_iter_200000.caffemodel', 'test');
 
 
 MSG_BUFFSIZE = 28;

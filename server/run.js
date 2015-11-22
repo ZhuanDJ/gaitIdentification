@@ -104,7 +104,7 @@ tcpserver.on('connection',function(socket) {
     if (result.indexOf('1') != -1) {
       if (appSocket) {
         console.log('auth success!');
-        appSocket.emit('authSuccess', result.indexOf('1')+1);
+        appSocket.emit('authSuccess', "" + (result.indexOf('1')+1));
       }
     }
   });

@@ -1,6 +1,13 @@
-person = 23;
-iteration = 150000;
+people = 1:23;
+iteration = 200000;
 threshold = 0;
+
+tplist = zeros(length(people), 1);
+tnlist = zeros(length(people), 1);
+fplist = zeros(length(people), 1);
+fnlist = zeros(length(people), 1);
+
+for person = people
 
 caffe.reset_all;
 caffenet = caffe.Net('prototxt/lstm_gait_person_matlab.prototxt', sprintf('snapshot/gait_%d_iter_%d.caffemodel', person, iteration), 'test');
@@ -40,7 +47,10 @@ for i=1:m
     [~, class] = max(sum(log(predict_result), 2));
     avr2 = exp(sum(log(predict_result(2, :))) / size(predict_result, 2));
 
-    if avr2 < threshold && class == 2
+    if avr2 < threshold && class == 2 && true_class == 1
+        fprintf('threshold! %f < %f : prevent false positive\n', avr2, threshold);
+        class = 1;
+    elseif avr2 < threshold && class == 2
         fprintf('threshold! %f < %f\n', avr2, threshold);
         class = 1;
     end
@@ -70,6 +80,12 @@ for i=1:m
 end
 fprintf('\n');
 
+tplist(person) = tp;
+tnlist(person) = tn;
+fplist(person) = fp;
+fnlist(person) = fn;
+
+fprintf('person %d / iteration %d / threshold %f\n', person, iteration, threshold);
 fprintf('accuracy : %f\n', (tp + tn) / (tp + fp + tn + fn));
 fprintf('precision : %f\n', tp / (tp + fp));
 fprintf('recall : %f\n', tp / (tp + fn));
@@ -77,3 +93,20 @@ fprintf('true positive : %f\n', tp);
 fprintf('true negative : %f\n', tn);
 fprintf('false positive : %f\n', fp);
 fprintf('false negative : %f\n', fn);
+
+end
+
+accuracylist = zeros(length(people), 1);
+precisionlist = zeros(length(people), 1);
+recalllist = zeros(length(people), 1);
+
+for person = people
+    tp = tplist(person); tn = tnlist(person); fp = fplist(person); fn = fnlist(person);
+    accuracylist(person) = (tp + tn) / (tp + fp + tn + fn);
+    precisionlist(person) = tp / (tp + fp);
+    recalllist(person) = tp / (tp + fn);
+end
+
+fprintf('average accuracy : %f\n', mean(accuracylist));
+fprintf('average precision : %f\n', mean(precisionlist));
+fprintf('average recall : %f\n', mean(recalllist));

@@ -1,16 +1,19 @@
-net: "lstm_gait.prototxt"
-base_lr: 0.0001
+net: "prototxt/lstm_gait.prototxt"
+base_lr: 0.01
 momentum: 0.95
-lr_policy: "fixed"
+lr_policy: "inv"
+stepsize: 10000 # drop the learning rate every 10k iterations
+gamma: 0.01
+power: 0.6
+#weight_decay: 0.005
 display: 1000
-max_iter: 1000000
+max_iter: 500000
 solver_mode: CPU
 average_loss: 200
 debug_info: false
 
 #test_iter: 1000
 #test_interval: 50000
-#weight_decay: 0.004
 
 snapshot: 10000
 snapshot_prefix: "snapshot/gait"
