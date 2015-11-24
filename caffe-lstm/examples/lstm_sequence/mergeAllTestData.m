@@ -11,7 +11,7 @@ nSeqLength = 200;
 clip = ones(nSeqLength, 1);
 clip(1, 1) = 0;
 
-for person=1:11
+for person=13:23
     fprintf('merging... person %d\n', person);
     personResultIdx = 1;
     personResult = [];

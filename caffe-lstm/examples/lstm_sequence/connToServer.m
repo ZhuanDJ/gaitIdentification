@@ -34,7 +34,7 @@ while 1
             result2 = 0;
             result3 = 0;
         end
-%         result2 = 0;
+        result2 = 0;
 %         result3 = 1;
         
         % send result to node server

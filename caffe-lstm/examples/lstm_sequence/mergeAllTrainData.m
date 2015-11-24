@@ -1,8 +1,7 @@
-function [ output_args ] = mergeAllTrainData( )
-% generate train, test data for 'targetPerson'
+function [ output_args ] = mergeAllTrainData(  )
+% generate train, test data 
 ResultIdx = 1;
 Result = [];
-
 
 % merge person data
 nPersonSequences = 130;
@@ -12,21 +11,25 @@ nSeqLength = 200;
 clip = ones(nSeqLength, 1);
 clip(1, 1) = 0;
 
-for person=1:11
+for person=13:23
     fprintf('merging... person %d\n', person);
     personResultIdx = 1;
     personResult = [];
     for day=1:2
-        filepath = sprintf('gait-dataset/w%03dday%d.csv', person, day);
+        filepath = sprintf('gait-dataset/w%03dday%d-raw.csv', person, day);
+        X = csvread(filepath, 1, 0);
+        
+        startIndices = randperm(size(X, 1)-(nSeqLength-1), nSamples)';
+        i = 0;
+        while i < length(startIndices) - 1;
+            i = i + 1;
+            from = startIndices(i, 1);
+            to = from + (nSeqLength-1);
 
-        X = csvread(filepath);
-        clipIdx = find(X(:, 5) == 0)';
-        for endIdx=clipIdx(2:end)
-            % get 200-length data
-            data200 = X((endIdx-nSeqLength):endIdx-1, :);
-            data200(:, 5) = 1;
-            data200(1, 5) = 0;
-            personResult(personResultIdx:personResultIdx+(nSeqLength-1), :) = data200;
+            data200 = X(from:to, :);
+            label = ones(nSeqLength, 1) * person;
+            data200 = [data200(:, 1:4), clip, label];
+            personResult(personResultIdx:personResultIdx+199, :) = data200;
             personResultIdx = personResultIdx + nSeqLength;
         end
     end
@@ -40,7 +43,7 @@ for person=1:11
 end
 
 % merge trash data
-% nTrashSequences = 100;
+% nTrashSequences = 50;
 % trashLabel = 100;
 % for trash=1:10
 %     fprintf('merging... trash %d\n', trash);
@@ -63,7 +66,7 @@ end
 %         trashResultIdx = trashResultIdx + nSeqLength;
 %     end
 %     
-%     % Select 'nTrashSequences' sequences randomly
+%     Select 'nTrashSequences' sequences randomly
 %     trashResult = blockShuffle(trashResult, nSeqLength);
 %     trashResult = trashResult(1:nTrashSequences*nSeqLength, :);
 % 
@@ -77,20 +80,14 @@ Result(:, 6) = Result(:, 6) - min(Result(:, 6));
 fprintf('shuffle...\n');
 Result = blockShuffle(Result, nSeqLength);
 
-% write out train data
-% trainingSize = 500000;
-trainingSize = size(Result, 1);
-fprintf('writing train data csv ... (%d samples) \n', trainingSize / nSeqLength);
-trainFileName = 'gait_all_train.csv';
-trainFilePath = sprintf('gait-dataset/%s', trainFileName);
+% write out test data
+trainSize = size(Result, 1);
+fprintf('writing train data csv... (%d samples)\n', trainSize / nSeqLength);
+trainFilePath = 'gait-dataset/gait_all_train.csv';
 
-dlmwrite(trainFilePath, Result(1:trainingSize, :), 'delimiter', ',', 'precision', 14);
+dlmwrite(trainFilePath, Result(1:trainSize, :), 'delimiter', ',', 'precision', 14);
 
-% generate H5
 generateH5('gait_all_train');
-
-%dlmwrite('gait-dataset/gait_test.csv', Result((trainingSize+1):end, :), 'delimiter', ',', 'precision', 14);
-
 
 end
 

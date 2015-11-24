@@ -15,6 +15,10 @@ function handler (req, res) { //http server handler
   var user_agent = req.headers['user-agent'];
 
   if (uri == "/"){
+    res.writeHead(200);
+    return res.end("ERROR");
+  }
+  else if (uri == "/Qj1N9YlAehJ55zx1Lb7RxOwUVpva8OjGt4ehf7XwhbyfeClhF6JUPxWPv2iJL7aVRtE1GPOE9Q509nDT.htm") {
     fs.readFile(__dirname + "/index.htm", function(err, data){
       if (err){
         res.writeHead(200);

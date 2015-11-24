@@ -106,4 +106,4 @@ setInterval(function() {
       socket.emit('auth', data);
     }
   }
-}, 500);
+}, 200);

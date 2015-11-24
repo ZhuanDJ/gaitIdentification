@@ -1,6 +1,10 @@
 caffe.reset_all;
-caffenet = caffe.Net('prototxt/lstm_gait_matlab.prototxt', 'snapshot/gait_iter_20000.caffemodel', 'test');
-X = csvread('gait-dataset/gait_all_train.csv');
+
+accuracylist = [];
+
+for iteration = 1000:1000:500000
+caffenet = caffe.Net('prototxt/lstm_gait_matlab.prototxt', sprintf('snapshot/gait_iter_%d.caffemodel', iteration), 'test');
+X = csvread('gait-dataset/gait_all_test.csv');
 
 n = size(X, 1);
 m = n / 200;
@@ -39,4 +43,7 @@ for i=1:m
 end
 fprintf('\n');
 
-fprintf('accuracy : %f\n', positive_count / (positive_count + negative_count));
+accuracy = positive_count / (positive_count + negative_count);
+fprintf('accuracy : %f\n', accuracy);
+accuracylist(length(accuracylist) + 1) = accuracy;
+end
